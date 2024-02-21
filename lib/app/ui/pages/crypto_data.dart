@@ -1,5 +1,6 @@
 import 'package:crypto_app/app/controllers/coin.dart';
 import 'package:crypto_app/app/controllers/graph.dart';
+import 'package:crypto_app/app/controllers/main.dart';
 import 'package:crypto_app/app/data/models/graph.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,8 +31,6 @@ class CryptoDetail extends StatelessWidget {
     {"unique_id": 8, "name": "ATH"},
   ];
 
-
-
   TrackballBehavior trackballBehavior = TrackballBehavior(enable: true);
   CrosshairBehavior crosshairBehavior = CrosshairBehavior(enable: true);
 
@@ -45,14 +44,43 @@ class CryptoDetail extends StatelessWidget {
         },
         builder: (controller) {
           List<dynamic> data = [
-            {"unique_id": 1, "name": "${controller.cryptoDetail['price_change_percentage_24h'].toStringAsFixed(2)}"},
-            {"unique_id": 2, "name": "\u20B9 ${controller.cryptoDetail['price_change_24h'].toStringAsFixed(2)}"},
-            {"unique_id": 3, "name": "${controller.cryptoDetail['current_price'].toStringAsFixed(2)}"},
-            {"unique_id": 4, "name": "${controller.cryptoDetail['market_cap'].toStringAsFixed(2)}"},
-            {"unique_id": 5, "name": "${controller.cryptoDetail['low_24h'].toStringAsFixed(2)}"},
-            {"unique_id": 6, "name": "${controller.cryptoDetail['high_24h'].toStringAsFixed(2)}"},
-            {"unique_id": 7, "name": "${controller.cryptoDetail['atl'].toStringAsFixed(2)}"},
-            {"unique_id": 8, "name": "${controller.cryptoDetail['ath'].toStringAsFixed(2)}"},
+            {
+              "unique_id": 1,
+              "name":
+                  "${controller.cryptoDetail['price_change_percentage_24h'].toStringAsFixed(2)}"
+            },
+            {
+              "unique_id": 2,
+              "name":
+                  "\u20B9 ${controller.cryptoDetail['price_change_24h'].toStringAsFixed(2)}"
+            },
+            {
+              "unique_id": 3,
+              "name":
+                  "${controller.cryptoDetail['current_price'].toStringAsFixed(2)}"
+            },
+            {
+              "unique_id": 4,
+              "name":
+                  "${controller.cryptoDetail['market_cap'].toStringAsFixed(2)}"
+            },
+            {
+              "unique_id": 5,
+              "name": "${controller.cryptoDetail['low_24h'].toStringAsFixed(2)}"
+            },
+            {
+              "unique_id": 6,
+              "name":
+                  "${controller.cryptoDetail['high_24h'].toStringAsFixed(2)}"
+            },
+            {
+              "unique_id": 7,
+              "name": "${controller.cryptoDetail['atl'].toStringAsFixed(2)}"
+            },
+            {
+              "unique_id": 8,
+              "name": "${controller.cryptoDetail['ath'].toStringAsFixed(2)}"
+            },
           ];
           return Scaffold(
               appBar: AppBar(
@@ -65,8 +93,14 @@ class CryptoDetail extends StatelessWidget {
                 actions: [
                   IconButton(
                     padding: EdgeInsets.zero,
-                    onPressed: () {},
-                    icon: const Icon(Icons.bookmark_border),
+                    onPressed: () {
+                      MainController.to.updateWishList(id: id);
+                    },
+                    icon: Obx(() => Icon(MainController.to.wishList
+                            .where((element) => element['id'] == id)
+                            .isNotEmpty
+                        ? Icons.bookmark
+                        : Icons.bookmark_border)),
                   ),
                 ],
                 title: Row(
@@ -76,7 +110,7 @@ class CryptoDetail extends StatelessWidget {
                     ),
                     SizedBox(width: 2.w),
                     Text(
-                      controller.cryptoDetail['name'],
+                      controller.cryptoDetail['id'],
                       style: const TextStyle(
                         overflow: TextOverflow.ellipsis,
                         fontSize: 20,

@@ -1,25 +1,20 @@
-import 'package:crypto_app/app/controllers/coin.dart';
-import 'package:crypto_app/app/ui/pages/crypto_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import '../../controllers/coin.dart';
+import 'crypto_data.dart';
 
-import '../../controllers/graph.dart';
+class CryptoCoins extends StatelessWidget {
+  const CryptoCoins({super.key});
 
-class CryptoGen extends StatefulWidget {
-  const CryptoGen({super.key});
-
-  @override
-  State<CryptoGen> createState() => _CryptoGenState();
-}
-
-class _CryptoGenState extends State<CryptoGen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
         init: CoinController(),
         initState: (_) {
-          CoinController.to.getCoinsMarket();
+          if (CoinController.to.firstTimeLoading == true) {
+            CoinController.to.getCoinsMarket();
+          }
         },
         builder: (controller) {
           return Scaffold(
@@ -28,18 +23,6 @@ class _CryptoGenState extends State<CryptoGen> {
                 physics: const BouncingScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                 children: [
-                  const Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Hello 👋",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 2.h),
                   Obx(
                     () => controller.loading
                         ? Center(

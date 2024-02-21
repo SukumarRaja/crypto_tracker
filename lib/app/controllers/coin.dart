@@ -31,6 +31,13 @@ class CoinController extends GetxController {
   set cryptoDetail(value) {
     _cryptoDetail.value = value;
   }
+  final _firstTimeLoading = true.obs;
+
+  get firstTimeLoading => _firstTimeLoading.value;
+
+  set firstTimeLoading(value) {
+    _firstTimeLoading.value = value;
+  }
 
   getCoinsMarket() async {
     loading = true;
@@ -43,10 +50,12 @@ class CoinController extends GetxController {
         debugPrint("data is $res");
         loading = false;
         coinsData = res;
+        firstTimeLoading = false;
       } else {
         debugPrint("Failed get coins $statusCode");
         loading = false;
         coinsData = [];
+        firstTimeLoading = true;
       }
     } catch (e) {
       loading = false;

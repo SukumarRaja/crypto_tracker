@@ -1,4 +1,4 @@
-package com.syssoft.crypto.crypto_app;
+package com.syssoft.crypto;
 
 import io.flutter.embedding.android.FlutterActivity;
 
